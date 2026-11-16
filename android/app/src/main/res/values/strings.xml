@@ -4,8 +4,8 @@
     <string name="title_activity_main">眠りの音</string>
     <string name="package_name">jp.techgym.sleepsounds</string>
     <string name="custom_url_scheme">jp.techgym.sleepsounds</string>
-    <!-- AdMob のアプリ ID。いまは Google 公式のテスト用 ID。AdMob にアプリを登録したら本番の ID（ca-app-pub-6411535997477460~…）に差し替える -->
-    <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
+    <!-- AdMob のアプリ ID（AdMob の Android アプリ「眠りの音」） -->
+    <string name="admob_app_id">ca-app-pub-6411535997477460~4330657393</string>
     <!-- 再生中の通知 -->
     <string name="playback_channel">再生中</string>
     <string name="playback_title">眠りの音</string>

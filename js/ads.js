@@ -11,11 +11,11 @@ window.Ads = (() => {
         rewarded: 'ca-app-pub-3940256099942544/5224354917',
         banner: 'ca-app-pub-3940256099942544/6300978111',
       },
-      // 本番の広告ユニット（AdMob の Android アプリ「眠りの音」）。AdMob で作ったら ID を入れる
+      // 本番の広告ユニット（AdMob の Android アプリ「眠りの音」）。空の種類は出さない
       production: {
         interstitial: '',
         rewarded: '',
-        banner: '',
+        banner: 'ca-app-pub-6411535997477460/7460217760',
       },
     },
     ios: {
