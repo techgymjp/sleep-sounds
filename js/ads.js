@@ -14,7 +14,7 @@ window.Ads = (() => {
       // 本番の広告ユニット（AdMob の Android アプリ「眠りの音」）。空の種類は出さない
       production: {
         interstitial: 'ca-app-pub-6411535997477460/8390156053',
-        rewarded: '',
+        rewarded: 'ca-app-pub-6411535997477460/1650709078',
         banner: 'ca-app-pub-6411535997477460/7460217760',
       },
     },
