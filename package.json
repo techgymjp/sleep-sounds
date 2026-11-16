@@ -1,0 +1,21 @@
+{
+  "name": "sleep-sounds",
+  "version": "1.0.0",
+  "private": true,
+  "description": "眠りの音 — 雨音・波音・焚き火・ノイズ・バイノーラルビートを重ねて作る睡眠用サウンド（Web / Android）",
+  "scripts": {
+    "build": "node scripts/build-web.js",
+    "build:app": "node scripts/build-web.js --app",
+    "android:sync": "npm run build:app && npx cap sync android",
+    "android:open": "npx cap open android"
+  },
+  "dependencies": {
+    "@capacitor-community/admob": "8.3.1",
+    "@capacitor/android": "8.5.2",
+    "@capacitor/app": "8.1.2",
+    "@capacitor/core": "8.5.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.5.2"
+  }
+}

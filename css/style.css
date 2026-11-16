@@ -1,0 +1,80 @@
+*{margin:0;padding:0;box-sizing:border-box}
+body{min-height:100vh;background:linear-gradient(135deg,#080818 0%,#0d1b2a 60%,#0a1020 100%);color:#d8e8f4;font-family:'Segoe UI',system-ui,sans-serif;overflow-x:hidden}
+#stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:2rem 1rem 3rem}
+h1{text-align:center;font-size:2rem;font-weight:300;letter-spacing:.12em;color:#a8d8ea}
+.subtitle{text-align:center;color:#3e6680;font-size:.85rem;margin-top:.4rem;margin-bottom:1.8rem}
+
+.master{display:flex;align-items:center;gap:1.2rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:16px;padding:1rem 1.4rem;margin-bottom:1rem}
+.play-btn{width:52px;height:52px;border-radius:50%;border:2px solid #4fc3f7;background:rgba(79,195,247,.13);color:#4fc3f7;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;flex-shrink:0}
+.play-btn:hover{background:rgba(79,195,247,.28);transform:scale(1.06)}
+.play-btn.on{box-shadow:0 0 18px rgba(79,195,247,.45)}
+.vol-wrap{flex:1;display:flex;flex-direction:column;gap:.35rem}
+.vol-wrap label{font-size:.72rem;color:#3e6680;text-transform:uppercase;letter-spacing:.07em}
+#vizCanvas{border-radius:8px;background:rgba(0,0,0,.25);flex-shrink:0}
+
+.presets{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.2rem}
+.preset-btn{font-size:.8rem;padding:.4rem .9rem;border-radius:20px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#8ab4cc;cursor:pointer;transition:.2s;white-space:nowrap}
+.preset-btn:hover{background:rgba(255,255,255,.1);color:#cde}
+.preset-btn.active{border-color:#4fc3f7;color:#4fc3f7;background:rgba(79,195,247,.12)}
+
+.timer-row{display:flex;align-items:center;gap:.5rem;margin-bottom:1.5rem;font-size:.78rem;color:#3e6680;flex-wrap:wrap}
+.timer-btn{padding:.3rem .7rem;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#6a8fa8;cursor:pointer;font-size:.75rem;transition:.2s}
+.timer-btn:hover{background:rgba(255,255,255,.08)}
+.timer-btn.active{border-color:#4fc3f7;color:#4fc3f7;background:rgba(79,195,247,.1)}
+#timerDisplay{color:#4fc3f7;font-variant-numeric:tabular-nums}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem}
+.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:1.2rem;transition:border-color .3s,background .3s}
+.card.on{border-color:var(--ac);background:rgba(255,255,255,.065)}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.card-title{display:flex;align-items:center;gap:.55rem;font-size:.92rem;font-weight:500}
+.card-icon{font-size:1.25rem}
+.card-desc{margin-top:.6rem;font-size:.7rem;color:#2e5060}
+
+.tog{position:relative;width:44px;height:24px;flex-shrink:0}
+.tog input{opacity:0;width:0;height:0}
+.tog-sl{position:absolute;inset:0;background:rgba(255,255,255,.1);border-radius:12px;cursor:pointer;transition:background .2s}
+.tog-sl::before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform .2s;opacity:.6}
+.tog input:checked+.tog-sl{background:var(--ac)}
+.tog input:checked+.tog-sl::before{transform:translateX(20px);opacity:1}
+
+.param{margin-bottom:.75rem}
+.param-lbl{display:flex;justify-content:space-between;font-size:.73rem;color:#3e6680;margin-bottom:.3rem}
+.param-val{color:var(--ac);font-weight:500}
+input[type=range]{-webkit-appearance:none;width:100%;height:4px;background:rgba(255,255,255,.1);border-radius:2px;outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--ac,#4fc3f7);cursor:pointer;box-shadow:0 0 5px var(--ac,#4fc3f7)}
+.master input[type=range]{--ac:#4fc3f7}
+
+footer{text-align:center;margin-top:2rem;color:#1e3040;font-size:.75rem}
+  
+
+/* ── アプリ（Android）・共通の追加 ───────────────────────────── */
+html{background:#080818}
+body{-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+/* アプリでは画面の下にバナー広告（高さ 50）が出るので、その分だけ下を空ける */
+body.has-banner .wrap{padding-bottom:calc(3rem + 60px)}
+.hidden{display:none !important}
+
+.noads{display:flex;align-items:center;justify-content:center;gap:.6rem;flex-wrap:wrap;margin:-.4rem 0 1.2rem;font-size:.78rem;color:#6a8fa8}
+.noads-btn{padding:.45rem 1rem;border-radius:20px;border:1px solid rgba(255,213,79,.45);background:rgba(255,213,79,.1);color:#ffd54f;cursor:pointer;font-size:.8rem}
+.noads-btn:disabled{opacity:.5}
+.noads-msg{color:#ffd54f}
+
+footer .legal{margin-top:.8rem;display:flex;justify-content:center;gap:.4rem;flex-wrap:wrap;color:#3e6680}
+footer .legal a{color:#5a86a0;text-decoration:none}
+footer .legal a:hover{text-decoration:underline}
+
+/* スマホ（縦画面）：余白と文字を詰める */
+@media (max-width:520px){
+  .wrap{padding:1.4rem .9rem 2.4rem}
+  h1{font-size:1.7rem}
+  .subtitle{margin-bottom:1.2rem}
+  .master{padding:.8rem 1rem;gap:.8rem}
+  #vizCanvas{width:110px;height:36px}
+  .presets{gap:.45rem}
+  .preset-btn{font-size:.82rem;padding:.45rem .85rem}
+  .timer-btn{font-size:.8rem;padding:.4rem .75rem}
+  .grid{grid-template-columns:1fr}
+  .card-desc{color:#3e6680}
+}

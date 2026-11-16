@@ -1,0 +1,8 @@
+{
+  "appId": "jp.techgym.sleepsounds",
+  "appName": "眠りの音",
+  "webDir": "www",
+  "android": {
+    "backgroundColor": "#080818"
+  }
+}
