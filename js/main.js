@@ -54,7 +54,7 @@ let ctx = null, masterGain = null, analyser = null;
 let noiseBufs = null;
 let playing = false;
 const active = {}, params = {}, nodes = {};
-let timerHandle = null, timerEnd = 0, fading = false;
+let timerHandle = null, timerEnd = 0, timerRemain = 0, fading = false;
 
 // アプリ（js/app.js）が再生の開始・停止を知るためのフック
 //   onStart … 止まっている状態から鳴らし始めるとき（ボタンを押した直後に呼ぶ）
@@ -323,6 +323,8 @@ function setPlaying(v) {
   playing = v;
   $('playBtn').textContent = v ? '⏸' : '▶';
   $('playBtn').classList.toggle('on', v);
+  // タイマーは鳴らしているあいだだけ減らす
+  if (v) runTimer(); else pauseTimer();
   if (hooks.onChange) hooks.onChange(v);
 }
 
@@ -356,7 +358,9 @@ function checkAllOff() {
 }
 
 // ── Timer ────────────────────────────────────────────────────────────────────
-// 終わる時刻を覚えておき、残り時間はそこから計算する
+// 減るのは鳴らしているあいだだけ。止めるとその時点の残り時間で止まり、▶ で続きから減る。
+// 止まっているときに選んだら、時間だけを覚えておき、鳴らし始めたときから減り始める。
+// 動いているあいだは終わる時刻を覚えておき、残り時間はそこから計算する
 // （画面を消しているあいだにタイマー処理が遅れても、ずれないようにするため）
 function restoreMasterGain() {
   fading = false;
@@ -365,21 +369,44 @@ function restoreMasterGain() {
   masterGain.gain.setValueAtTime($('masterVol').value / 100, ctx.currentTime);
 }
 
-function setTimer(min) {
-  clearInterval(timerHandle); timerHandle = null;
-  $('timerDisplay').textContent = '';
-  if (fading) restoreMasterGain();
-  document.querySelectorAll('.timer-btn').forEach(b => b.classList.toggle('active', +b.dataset.min === min));
-  if (min === 0) return;
-  timerEnd = Date.now() + min * 60000;
+function timerLeftMs() {
+  return timerHandle ? Math.max(0, timerEnd - Date.now()) : timerRemain;
+}
+
+function showTimer() {
+  if (!timerRemain && !timerHandle) { $('timerDisplay').textContent = ''; return; }
+  const left = Math.round(timerLeftMs() / 1000);
+  const m = Math.floor(left / 60), s = left % 60;
+  const paused = timerHandle ? '' : L('（停止中）', ' (paused)');
+  $('timerDisplay').textContent = `${L('残り','Left')} ${m}:${String(s).padStart(2,'0')}${paused}`;
+}
+
+function runTimer() {
+  if (timerHandle || !timerRemain) return;
+  timerEnd = Date.now() + timerRemain;
   timerHandle = setInterval(tickTimer, 1000);
   tickTimer();
 }
 
+function pauseTimer() {
+  if (!timerHandle) return;
+  timerRemain = Math.max(1000, timerEnd - Date.now());
+  clearInterval(timerHandle); timerHandle = null;
+  if (fading) restoreMasterGain();
+  showTimer();
+}
+
+function setTimer(min) {
+  clearInterval(timerHandle); timerHandle = null;
+  if (fading) restoreMasterGain();
+  timerRemain = min * 60000;
+  document.querySelectorAll('.timer-btn').forEach(b => b.classList.toggle('active', +b.dataset.min === min));
+  if (playing) runTimer(); else showTimer();
+}
+
 function tickTimer() {
-  const left = Math.max(0, Math.round((timerEnd - Date.now()) / 1000));
-  const m = Math.floor(left / 60), s = left % 60;
-  $('timerDisplay').textContent = `${L('残り','Left')} ${m}:${String(s).padStart(2,'0')}`;
+  const left = Math.round(timerLeftMs() / 1000);
+  showTimer();
   // 最後の 30 秒でゆっくり音を小さくする
   if (left <= 30 && !fading && masterGain && ctx) {
     fading = true;
