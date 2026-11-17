@@ -572,6 +572,9 @@ $('appTitle').textContent = L('🌙 眠りの音', '🌙 Sleep Sounds');
 $('masterLbl').textContent = L('マスター音量', 'Master volume');
 $('timerLbl').textContent = L('タイマー：', 'Timer:');
 $('footerNote').textContent = L('ヘッドフォン推奨（バイノーラルビート使用時）', 'Headphones recommended for binaural beats');
+// web-only:start
+if ($('storeLink')) $('storeLink').textContent = L('▶ Android アプリ版（Google Play）', '▶ Get the Android app (Google Play)');
+// web-only:end
 $('privacyLink').textContent = L('プライバシーポリシー', 'Privacy Policy');
 $('privacyLink').href = L('https://techgym.jp/privacy-policy/', 'https://techgym.jp/privacy-policy-en/');
 $('adPrivacyLink').textContent = L('広告の設定', 'Ad settings');
